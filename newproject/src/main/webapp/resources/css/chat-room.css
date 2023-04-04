@@ -1,0 +1,228 @@
+body{
+    
+    font-family: fontello, 'Nanum Gothic', sans-serif, Arial;
+    background-color: white;
+}
+*{
+	margin: 0; /* 페이지의 여유공간 없애버림 */
+	padding: 0;
+    box-sizing: border-box;
+}
+a:visited, a:link{
+    color: gray;
+    text-decoration: none;
+}
+/* grid container 적용 */
+#chat-body{
+    top: 0;
+    left: 0;
+    grid-template-columns: minmax(3.125rem, auto) 6.25rem;
+    grid-template-rows: 2.5rem 2.5rem auto;
+    align-items: stretch;
+    grid-template-areas:
+        " header   setting  "
+        " header  main_menu "
+        "  main     main    ";
+}
+
+/* 배경화면 설정 */
+#chat-body, header{
+	
+    /* background-image: url(../pic/talk_background.jpg);
+    background-repeat: repeat;
+    background-position: top left;
+    background-attachment: fixed; */
+    z-index: 98;
+     
+}
+
+/* 프로필 사진, 프로필명 등 헤더 스타일 지정 */
+header{
+    align-items: center;
+    margin-left: 0.625rem;
+    flex-direction: row;
+    padding-bottom: 0.9375rem;
+    grid-area: header;
+    padding-top: 0.9375rem;
+    position:fixed;
+    top: 0;
+    width: 100%;
+    height: 50px;
+    box-shadow:0 4px 7px rgba(0,0,0,0.1);
+    margin: 0;
+    padding: 15px 30px;
+    border-bottom: 1px solid #ddd;
+    background-color: white;
+}
+.profile-col{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+header *{
+    font-size: 0.8125rem;
+    font-weight: bold;
+    color:grey;
+}
+.profile-name{
+    /* 프로필명 폰트 스타일 지정 */
+    font-size: 0.8125rem;
+}
+/* main(채팅내용) 스타일 지정 */
+main{
+    /* 채팅내용 영역 전체 flex box 적용 */
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    heigit: calc(100vh-135px);
+    margin-top: 50px;
+    margin-bottom: 85px;
+}
+
+/* main(채팅내용) 여백 지정 */
+.chat-content{
+    margin-left: 0.625rem;
+    margin-right: 0.625rem;
+    z-index: 0;
+}
+
+/* 말풍선 공통 스타일 지정 */
+.friend-chat-col, .me-chat-col{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+/* 친구의 채팅 말풍선들 flex 레이아웃 구성 */
+.friend-chat{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    margin-top: 0.3125rem;
+    margin-bottom: 0.3125rem;
+}
+.balloon{
+    margin-top: 0.3125rem;
+    padding: 0.4375rem;
+    border: 1px solid rgb(228, 233, 230);
+    border-radius: 0.1875rem;
+    background-color: rgb(228, 233, 230);
+    font-size: 0.8125rem;
+    color: black;
+}
+.friend-chat .balloon::before{
+    top: 1.563rem;
+    left: -0.5rem;
+    content: "";
+    border-bottom: 0.6875rem solid transparent;
+    border-right: 0.6875rem solid rgb(228, 233, 230);
+    position: absolute;
+    top: 1.563rem;
+    left: -0.5rem;
+}
+
+
+/* 나의 채팅 말풍선들 flex 레이아웃 구성 */
+
+.me-chat{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: right;
+    align-items: flex-start;
+    margin-top: 0.3125rem;
+    margin-bottom: 0.3125rem;
+}
+.me-chat-col > .balloon{
+    margin-top: 0.3125rem;
+    padding: 0.4375rem;
+    border: 1px solid rgb(94, 122, 100);
+    border-radius: 0.1875rem;
+    background-color: rgb(94, 122, 100);
+    font-size: 0.8125rem;
+    color: white;
+    position: relative;
+}
+.me-chat-col > .balloon::before{
+    content: "";
+    border-bottom: 0.6875rem solid transparent;
+    border-left: 0.6875rem solid rgb(94, 122, 100);
+    position: absolute;
+    top: 0.625rem;
+    right: -0.5rem;
+}
+
+.main-chat{
+	width: 100%;
+	padding: 15px 10px;
+}
+ 
+/* 채팅 말풍선의 시간(time) 아래로 정렬 (flex item들) */
+.main-chat > #chatTime{
+    align-self: flex-end;
+    flex-basis: 3.75rem;
+    flex-shrink: 0;
+    margin-left: 0.3125rem;
+    margin-right: 0.3125rem;
+    font-size: 0.75rem;
+    color: rgb(88, 88, 88);
+    text-align: center;
+}
+.main-chat > #chatTime {
+    margin-right: 2.5rem;
+}
+/
+.me-chat > #chatTime{
+    margin-left: 2.5rem;
+}
+ 
+
+/* 채팅 입력차 스타일 지정 */
+.insert-content{
+	width:100%;
+	height: 85px;
+    background-color: white;
+    padding: 0.4375rem;
+    position: fixed;
+    bottom: 0;
+    border-top: 1px solid #ddd; 
+}
+textarea{
+    resize: none;
+    border: none;
+    height: 4.375rem;
+     white-space: nowrap; 
+}
+
+/* 채팅 입력창 flex로 정렬 */
+form[name="chatform"]{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+form[name="chatform"] > textarea{
+    flex-basis: 100%;
+    flex-grow: 1;
+    padding: 5px;
+}
+.chat-submit{
+    margin-left: 10px;
+    border: 1px solid rgb(94, 122, 100);
+    background-color:rgb(248, 248, 248);
+    color: rgb(94, 122, 100);
+    padding: 5px 0;
+    width: 3.125rem;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    transition-property: background-color, color;
+    transition-duration: 1s;
+    transition-timing-function: linear;
+}
+.chat-submit:hover{
+    background-color: rgb(94, 122, 100);
+    color: rgb(248, 248, 248);
+}

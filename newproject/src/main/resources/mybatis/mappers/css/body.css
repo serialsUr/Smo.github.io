@@ -1,0 +1,62 @@
+@charset "UTF-8";
+
+*{
+	box-sizing: border-box;
+	
+}
+
+html,
+body{
+	margin:0;
+	padding:0;
+	
+}
+
+a{
+	text-decoration: none;
+	
+}
+
+.mainBanner{
+	height: 150px;
+	background-image: url(../img/login.jpg);
+	background-position: center;
+	background-size: cover;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.mainBanner .text {
+	font-size: 48px;
+}
+
+.container {
+	background: #0080ff;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+.wrapper {
+	width: 100%;
+	max-width: 300px;
+	background: #0000ff;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: fiex-start;
+}
+
+.sidebar {
+	background: #8000ff;
+	width: 170px;
+
+	}
+.itemWrap {
+	background: #800000;
+	width: calc(100% - 170px);
+}
+

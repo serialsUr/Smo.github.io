@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+	<!-- mybatis에 내장된(built-in) typeAliass는 아래와 같이 다수개가 존재한다 -->
+  		<!-- <typeAlias type="패키지명.클래스명" alias="패키지별명(패키지 변수명)"/> --> 	
+		<typeAlias type="com.damoye.secondproject.model.NoticeDTO" alias="noticeDTO"/>
+		<typeAlias type="com.damoye.secondproject.model.ChatDTO" alias="ChatDTO"/>
+		<!-- club부분 -->
+		<!--페이징처리 문의 <typeAlias type="com.damoye.secondproject.model.PageClub" alias="pageClub"/> -->
+		<typeAlias type="com.damoye.secondproject.model.ClubDTO" alias="clubDTO"/>
+		<typeAlias type="com.damoye.secondproject.model.ClubMemberDTO" alias="clubMemberDTO"/>
+		<!-- board부분 -->
+		<typeAlias type="com.damoye.secondproject.model.BoardVO" alias="boardVO"/>
+		<typeAlias type="com.damoye.secondproject.model.GoodsVO" alias="goodVO"/>
+		<typeAlias type="com.damoye.secondproject.model.ImageFileVO" alias="imageFileVO"/>	
+	                                   
+		<typeAlias type="com.damoye.secondproject.model.CommBoardVO" alias="commBoardVO"/>
+		<typeAlias type="com.damoye.secondproject.model.User" alias="user"/>
+
+	</typeAliases>
+</configuration>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.myClub">
+
+	<resultMap type="clubMemberDTO" id="clubMemberDTO">
+		<result property="cMember" column="cMember"/>
+		<result property="cNo" column="cNo"/>
+		<result property="no" column="no"/>
+		<result property="joinDate" column="joinDate"/>
+		<result property="signIn" column="signIn"/>
+	</resultMap>
+	
+	<resultMap type="clubDTO" id="clubDTO">
+		<result property="cNo" column="cNo"/>
+		<result property="cName" column="cName"/>
+		<result property="cIntro" column="cIntro"/>
+		<result property="masterId" column="masterId"/>
+		<result property="cLoc" column="cLoc"/>
+		<result property="creDate" column="creDate"/>
+		<result property="cPeople" column="cPeople"/>
+		<result property="cIsShow" column="cIsShow"/>
+		<result property="categoryNo" column="categoryNo"/>
+	</resultMap>
+	
+	<select id="getMyClubNo" resultMap="clubMemberDTO" parameterType="clubMemberDTO">
+		<![CDATA[
+			
+			select * from clubmember where no = #{userNo};	
+		]]>
+	</select>
+	
+	<select id="getMyClub" resultMap="clubDTO" parameterType="clubDTO">
+		<![CDATA[
+			
+			select * from club where cno = #{cNo};	
+		]]>
+	</select>
+	
+</mapper>

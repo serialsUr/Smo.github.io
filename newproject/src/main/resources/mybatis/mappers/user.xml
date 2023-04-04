@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+                    
+<mapper namespace="mapper.user">
+
+	<resultMap type="user" id="user">
+		<result property="no"			 column="no" />
+		<result property="id"			 column="id" />
+		<result property="password"		 column="password" />
+		<result property="re_password"	 column="re_password" />
+		<result property="name"			 column="name" />
+		<result property="zipcode"		 column="zipcode" />
+		<result property="address"		 column="address" />
+		<result property="detailaddress" column="detailaddress" />
+		<result property="prictnum"		 column="prictnum" />
+		<result property="email"		 column="email" />
+		<result property="phonenum"		 column="phonenum" />
+		<result property="gender"		 column="gender" />
+		<result property="grade"		 column="grade" />
+		<result property="regdate"		 column="regdate" />
+	</resultMap>
+
+	<select id="checkId" parameterType="String" resultType="Integer">
+        <![CDATA[
+        	select count(id) from user where id=#{id}
+        ]]>
+    </select>
+    
+   	<select id="pricynumCheck" parameterType="String" resultType="Integer">
+       <![CDATA[
+       	select count(pricynum) from user where pricynum=#{pricynum}
+       ]]>
+    </select>
+    
+</mapper>
+
+
+
+
+
+
+

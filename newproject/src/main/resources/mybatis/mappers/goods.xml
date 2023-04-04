@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+          "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+                    
+<!-- 상품(goods)테이블과 상품이미지테이블(goods_detail_image) 관련 쿼리문 -->
+<mapper namespace="mapper.goods">
+
+
+	<!-- resultMap선언 -->
+	<!-- modelConfig.xml에서
+	     GoodsVO클래스를  별칭(alias)으로 goodsResult이라고 설정
+	  	<typeAlias type="com.ourcom.goods.domain.GoodsVO" alias="goodVO"/>
+
+	    ImageFileVO클래스를   별칭(alias)으로 goodsResult이라고 설정	                                     
+	    <typeAlias type="com.ourcom.goods.domain.ImageFileVO" alias="imageFileVO"/>-->	                                     
+	
+	<resultMap type="goodVO" id="goodsResult">
+		<result property="goods_id"		column="goods_id" />
+		<result property="goods_title"	column="goods_title" />
+		<result property="goods_content"	column="goods_content" />
+		<result property="credate"	column="credate" />
+		<result property="fileName" column="fileName" />
+		
+		<!-- goods_contents_order컬럼의 oracle의 타입은 CLOB이다.
+		     DBMS에서의 CLOB을   JAVA의 String개체로 바인딩 -->
+		<result property="goods_contents_order"
+				javaType="java.lang.String"
+				jdbcType="CLOB" 
+		        column="goods_contents_order" />
+		<!-- insert쿼리문에서는 #{변수명:VARCHAR}로 작성
+		     CLOB타입으로 데이터입력할 때    VARCHAR로 지정-->        
+		<result property="goods_intro" column="goods_intro" />
+	</resultMap>
+	
+	<resultMap type="imageFileVO" id="imageResult">
+	   <result property="image_id" column="image_id" />
+	   <result property="goods_id" column="goods_id" />
+	   <result property="fileName" column="fileName" />
+	   <result property="id"   column="id" />
+	   <result property="fileType" column="fileType" />
+	   <result property="creDate"  column="creDate" />
+	</resultMap>
+
+
+	<!-- 참고  rownum은 데이터가 생성될 때 생성순서를 기억하는 필드
+	         여기에서는 select의 결과의 첫번째 record부터 15개까지 추출-->
+	<!-- 상품분류별 목록조회 
+	     goods_statu='bestseller' 또는 'steadyseller' 또는 'newbook' 등-->
+	<select id="selectGoodsList" parameterType="String" resultMap="goodsResult">
+	 <![CDATA[			
+	 select t.* 
+	 from (select g.*,d.fileName,d.id
+		  from   goods g, goods_detail_image d
+		  where g.goods_id=d.goods_id
+           order by goods_id desc) t
+     limit 0,15
+	 ]]>	
+	</select>
+	
+	
+	<!-- 상품상세 조회 -->
+	<select id="selectGoodsDetail" resultMap="goodsResult" parameterType="int">
+	 <![CDATA[		
+	select g.*,d.fileName,d.id
+	from   goods g, goods_detail_image d
+	where  g.goods_id=d.goods_id
+	       and
+	       d.filetype='main_image'
+	       and
+	       g.goods_id=#{goods_id}
+	  ]]>      
+    </select>   
+    
+    <!-- 상품상세조회 :상품이미지목록 -->
+    <select id="selectGoodsDetailImage" resultMap="imageResult" parameterType="int">
+    <![CDATA[
+   	select *
+	from   goods_detail_image
+	where  filetype!='main_image'
+	       and
+	       goods_id=#{goods_id}
+     ]]>
+    </select>
+    
+     <!--  : id검색 -->
+    <select id="selectimNo" resultMap="imageResult" parameterType="String">
+    <![CDATA[
+   	select *
+	from   goods_detail_image
+	where  id=#{id}
+     ]]>
+    </select>
+
+	<!--검색키워드에 따른 조회
+	       파라미터 String keyword : 검색키워드 -->
+	<select id="selectKeywordSearch" 
+			resultType="String" parameterType="String"> 
+	<![CDATA[      
+	select goods_title
+	from   goods
+	where  goods_title like concat(concat('%',#{keyword}),'%')
+	order  by creDate desc
+	]]>
+	</select>
+	
+		<!--   -->
+	<!-- 글등록:article테이블에 등록 -->
+	<insert id="insertNewArticle" parameterType="java.util.Map">
+		<selectKey resultType="String" keyProperty="goods_id" order="AFTER">
+	    	select last_insert_id()
+	    </selectKey>
+	<![CDATA[
+	 insert into GOODS(goods_title,goods_content,credate)
+	 values(#{goods_title},#{goods_content},now())	
+	]]>
+	</insert>
+	
+	<!-- 첨부파일:article_image테이블에 등록  -->
+	<insert id="insertArticleImageFile" 
+	        parameterType="com.damoye.secondproject.model.ImageFileVO">
+	   <selectKey resultType="int" keyProperty="image_id" order="BEFORE"> 
+ 		select last_insert_id()
+	   </selectKey>
+	<![CDATA[
+	 insert into GOODS_DETAIL_IMAGE(goods_id,fileName,fileType,id,creDate)
+	 values(#{goods_id},#{fileName},#{fileType},#{id},now())	
+	]]>
+	</insert>
+    
+</mapper>
+
+
+
+
+
+
+

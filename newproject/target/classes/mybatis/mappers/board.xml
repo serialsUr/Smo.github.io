@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.board">
+
+
+	<!-- 클럽게시판 목록조회 -->
+	<select id="boardList" resultType="boardVO" parameterType="java.lang.Integer">
+		<![CDATA[
+			select cNo,boardNo,bType,bTitle,bWriter,bRegdate,bModdate,bIsShow,
+			(select count(*) from commboard where board.boardNo=commboard.boardNo) as commCnt
+			from board
+			where cNo=#{cNo} and bIsShow='Y'
+			order by bRegdate desc
+
+		]]>
+	</select> 
+	
+	<!-- 클럽게시판 목록조회 +페이징-->
+	<select id="boardListPage" resultType="boardVO" parameterType="hashMap">
+		<![CDATA[
+			select cNo,boardNo,bType,bTitle,bWriter,bRegdate,bModdate,bIsShow,
+			(select count(*) from commboard where board.boardNo=commboard.boardNo) as commCnt
+			from board
+			where cNo=#{cNo} and bIsShow='Y'
+			order by boardNo desc
+			limit #{displayPost}, #{postNum}
+		]]>
+	</select> 
+
+	<!-- 클럽게시판 총 게시글 수 -->
+	<select id="count" resultType="java.lang.Integer">
+		<![CDATA[
+			select count(boardNo)
+			from board
+			where cNo=#{cNo} and bIsShow='Y'
+		]]>
+	</select> 
+	
+	 
+	<!-- 클럽게시판 글 상세보기 -->
+	<select id="getBoardDetail" resultType="boardVO" parameterType="java.lang.Integer">
+		<![CDATA[
+			select cNo,boardNo,bType,bWriter,bTitle,bContent,bRegdate,bModdate,bIsShow
+			from board
+			where boardNo=#{boardNo} and bIsShow='Y'
+		]]>
+	</select>
+	
+	<!-- 클럽게시판 글쓰기 -->
+ 	<insert id="insertBoard" parameterType="boardVO">
+		<![CDATA[
+			insert into board(cNo,bType,bTitle,bContent,bRegdate,bWriter)
+			values(#{cNo},#{bType},#{bTitle},#{bContent},now(),#{bWriter})
+		]]>
+	</insert>
+	
+ 
+ 	<!-- 클럽게시판 글수정 -->
+ 	<update id="updateSubmitBoard" parameterType="boardVO">
+ 		<![CDATA[
+			update board 
+			set bType=#{bType},bTitle=#{bTitle},bContent=#{bContent},bModdate=now()
+			where cNo=#{cNo} and boardNo=#{boardNo}
+		]]>
+ 	</update>
+
+	<!-- 클럽게시판 글삭제 -->
+	<update id="deleteBoard" parameterType="boardVO">
+		<![CDATA[
+			update board set bIsshow='N'
+			where cNo=#{cNo} and boardNo=#{boardNo}
+		]]>
+	</update>
+	
+</mapper>

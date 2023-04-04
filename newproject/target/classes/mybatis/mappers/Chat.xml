@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.chat">
+
+	<resultMap type="ChatDTO" id="ChatDTO">
+		<result property="chattingNo" column="chattingno"/>
+		<result property="writerId" column="writerid"/>
+		<result property="content" column="content"/>
+		<result property="roomNo" column="roomno"/>
+		<result property="creDate" column="credate"/>
+	</resultMap>
+
+	<select id="chatInsert" resultMap="ChatDTO" parameterType="ChatDTO">
+		<![CDATA[
+			insert into chat(writerid, content, roomno)
+			values(#{writerId},#{content},#{roomNo})	
+		]]>
+	</select>
+	
+	<select id="chatList" resultMap="ChatDTO" parameterType="int">
+		<![CDATA[
+			select * from springproject.chat where roomno=#{no} order by chattingno asc
+		]]>
+	</select>
+</mapper>
